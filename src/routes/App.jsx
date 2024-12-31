@@ -10,6 +10,9 @@ function App() {
 
   return (
     <>
+      <div>
+        <Header />
+      </div>
       {/* Tailwind css */}
       {/* <h1 className="text-3xl font-bold underline">
         Hello world!
@@ -33,9 +36,6 @@ function App() {
           }}>
           START
         </button>
-      </div>
-      <div>
-        <Header />
       </div>
     </>
   )

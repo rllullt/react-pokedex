@@ -1,11 +1,20 @@
 import { useState } from 'react'
-// import './App.css'
+import Header from '../components/header'
+import '../styles/App.css'
 
 function Pokedex() {
     return (
-        <div className='fixed top-0'>
-            Pokédex
-        </div>
+        <>
+            <div>
+                <Header />
+            </div>
+            <h1>
+                Welcome to the Pokédex!
+            </h1>
+            <div className='fixed top-0'>
+                Pokédex
+            </div>
+        </>
     )
 }
 
