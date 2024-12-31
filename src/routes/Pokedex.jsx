@@ -11,9 +11,6 @@ function Pokedex() {
             <h1>
                 Welcome to the Pokédex!
             </h1>
-            <div className='fixed top-0'>
-                Pokédex
-            </div>
         </>
     )
 }

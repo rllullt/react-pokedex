@@ -16,14 +16,14 @@ function Header() {
     const navigationElems = [
         {
             id: '0',
-            url: '/uno',
-            title: 'Uno',
+            url: '/pokegrid',
+            title: 'PokéGrid',
         },
-        {
-            id: '1',
-            url: '/dos',
-            title: 'Dos',
-        },
+        // {
+        //     id: '1',
+        //     url: '/pokedex',
+        //     title: 'Pokédex',
+        // },
     ]
     return (
         <div className={`fixed top-0 left-0 w-full z-50 backdrop-blur-sm border-b border-n-6 bg-n-8/90 lg:bg-n-8/90 lg:backdrop-blur-sm`}>
