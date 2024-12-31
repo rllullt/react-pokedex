@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import reactLogo from '../assets/react.svg'
+import pokeball_icon from '../assets/pokeball_icon.svg'
 import Header from '../components/header'
 import '../styles/App.css'
 
@@ -30,6 +31,15 @@ function App() {
         {/* <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button> */}
+        <div style={{ display: 'grid', placeItems: 'center', textAlign: 'center', padding: '20px' }}>
+          <img
+            src={pokeball_icon}
+            style={{
+              width: 120,
+              animation: 'spin 3s linear infinite'
+            }}
+            alt='Pokedex logo' />
+        </div>
         <button onClick={() => {
             console.log('START');
             navigate('/pokegrid');
