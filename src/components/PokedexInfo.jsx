@@ -35,7 +35,7 @@ const PokedexInfo = ({ number, name, types, description, image, weight, height }
             </div>
 
             {/* Image */}
-            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+            <div style={{ display: 'grid', placeItems: 'center' }}>
                 <img
                     src={image}
                     alt={name}
