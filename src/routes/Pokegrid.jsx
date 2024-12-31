@@ -8,6 +8,8 @@ function Pokegrid() {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 30;
+
+    const [isLoading, setIsLoading] = useState(true); // controls the load state
     
     const [pokemonData, setPokemonData] = useState([]);  // pokemons starts as an empty list
     const [paginatedData, setPaginatedData] = useState([]);
@@ -29,16 +31,19 @@ function Pokegrid() {
                     };
                 });
                 setPokemonData(results);
+                setIsLoading(false);
             })
     }, []);
 
     useEffect(() => {
+        setIsLoading(true);
         const lowerCaseSearchTerm = searchTerm.toLowerCase();
         const newFilteredData = pokemonData.filter(pokemon => 
             pokemon.name.toLowerCase().includes(lowerCaseSearchTerm)
         );
         setCurrentPage(1); // Returns to first page when filtering
         setPaginatedData(newFilteredData.slice(startIndex, startIndex + itemsPerPage));
+        setIsLoading(false);
       }, [searchTerm, pokemonData]);
 
     // Use lodash to wait the user to finish writing
@@ -107,34 +112,52 @@ function Pokegrid() {
                 />
             </div>
             </div>
-            <div
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-                    gap: '16px',
-                    padding: '16px',
-                }}
-            >
-                {paginatedData.map(pokemon => (
+
+            {/* Loader */}
+            {isLoading ? (
+                <div style={{ display: 'grid', placeItems: 'center', textAlign: 'center', padding: '20px' }}>
                     <div
-                        // className="card"
-                        key={pokemon.id}
                         style={{
-                            border: '1px solid #ddd',
-                            borderRadius: '8px',
-                            padding: '16px',
-                            textAlign: 'center',
-                            cursor: 'pointer',
-                            backgroundColor: '#f9f9f9',
+                            width: '40px',
+                            height: '40px',
+                            border: '4px solid #ddd',
+                            borderTop: '4px solid #007bff',
+                            borderRadius: '50%',
+                            animation: 'spin 1s linear infinite',
                         }}
-                    >
-                        <Link to={`/pokedex/${pokemon.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'grid', placeItems: 'center' }}>
-                            <img src={pokemon.sprite} alt={pokemon.name} style={{ width: '80px', height: '80px' }} />
-                            <h3>{pokemon.name}</h3>
-                        </Link>
-                    </div>
-                ))}
-            </div>
+                    />
+                    <p style={{ marginTop: '10px', fontSize: '14px', color: '#666' }}>Loading...</p>
+                </div>
+            ) : (
+                <div
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                        gap: '16px',
+                        padding: '16px',
+                    }}
+                >
+                    {paginatedData.map(pokemon => (
+                        <div
+                            // className="card"
+                            key={pokemon.id}
+                            style={{
+                                border: '1px solid #ddd',
+                                borderRadius: '8px',
+                                padding: '16px',
+                                textAlign: 'center',
+                                cursor: 'pointer',
+                                backgroundColor: '#f9f9f9',
+                            }}
+                        >
+                            <Link to={`/pokedex/${pokemon.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'grid', placeItems: 'center' }}>
+                                <img src={pokemon.sprite} alt={pokemon.name} style={{ width: '80px', height: '80px' }} />
+                                <h3>{pokemon.name}</h3>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             {/* Pagination controls */}
             <div style={{ textAlign: 'center', marginTop: '16px' }}>
