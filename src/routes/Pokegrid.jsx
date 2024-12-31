@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { debounce } from 'lodash';
 import Header from '../components/header'
 import '../styles/App.css'
 
 function Pokegrid() {
+    const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 30;
     
-    const [pokemonData, setPokemonData] = useState([]);  // pokemons queda como una lista, inicializada vacía
+    const [pokemonData, setPokemonData] = useState([]);  // pokemons starts as an empty list
+    const [paginatedData, setPaginatedData] = useState([]);
 
     const totalPages = Math.ceil(pokemonData.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -29,7 +32,19 @@ function Pokegrid() {
             })
     }, []);
 
-    const paginatedData = pokemonData.slice(startIndex, startIndex + itemsPerPage);
+    useEffect(() => {
+        const lowerCaseSearchTerm = searchTerm.toLowerCase();
+        const newFilteredData = pokemonData.filter(pokemon => 
+            pokemon.name.toLowerCase().includes(lowerCaseSearchTerm)
+        );
+        setCurrentPage(1); // Returns to first page when filtering
+        setPaginatedData(newFilteredData.slice(startIndex, startIndex + itemsPerPage));
+      }, [searchTerm, pokemonData]);
+
+    // Use lodash to wait the user to finish writing
+    // Actually, it doesn’t let the user to write until the timing ¿?
+    // const handleSearch = debounce(term => setSearchTerm(term), 300);
+    const handleSearch = term => { setSearchTerm(term) }
 
     const handlePageChange = newPage => {
         if (0 < newPage && newPage <= totalPages) {
@@ -49,6 +64,48 @@ function Pokegrid() {
             <h1>
                 Welcome to the Pokégrid!
             </h1>
+
+            {/* Filter */}
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: '#f1f1f1',
+                    borderRadius: '25px',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                    padding: '10px 15px',
+                    marginTop: '30px',
+                    marginBottom: '20px',
+                }}
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    style={{ width: '20px', height: '20px', marginRight: '10px', color: '#888' }}
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 3a7.5 7.5 0 106.15 13.65z"
+                    />
+                </svg>
+                <input
+                    type="text"
+                    placeholder="Search by name..."
+                    value={searchTerm}
+                    onChange={e => handleSearch(e.target.value)}
+                    style={{
+                        border: 'none',
+                        outline: 'none',
+                        backgroundColor: 'transparent',
+                        flex: 1,
+                        fontSize: '16px',
+                    }}
+                />
+            </div>
             </div>
             <div
                 style={{
