@@ -13,13 +13,13 @@ function Pokegrid() {
     const startIndex = (currentPage - 1) * itemsPerPage;
 
     useEffect(() => {
-        fetch("https://pokeapi.co/api/v2/pokemon/?limit=151")
+        fetch("https://pokeapi.co/api/v2/pokemon/?limit=1000")
             .then(data => data.json())
             .then(data => {
                 const results = data.results.map((pokemon, index) => {
                     return {
                         'id': index+1,
-                        'name': pokemon.name,
+                        'name': pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
                         'url': pokemon.url,
                         // Use front sprites as default
                         'sprite': `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index+1}.png`,
@@ -71,7 +71,7 @@ function Pokegrid() {
                             backgroundColor: '#f9f9f9',
                         }}
                     >
-                        <Link to={`/pokedex/${pokemon.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to={`/pokedex/${pokemon.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'grid', placeItems: 'center' }}>
                             <img src={pokemon.sprite} alt={pokemon.name} style={{ width: '80px', height: '80px' }} />
                             <h3>{pokemon.name}</h3>
                         </Link>
