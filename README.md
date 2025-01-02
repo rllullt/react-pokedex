@@ -10,6 +10,26 @@ Pokedex made in React that consumes the PokeAPI [PokeAPI](https://pokeapi.co/).
 
 1. Pokedex
 
+
+## Running the application
+
+To run the application, it is important to have installed `npm` and `NodeJS`.
+This can be done with a virtual environment not to interfere with different versions of different applications.
+
+With Python, you can do the following to install the latest LTS version of node:
+```
+python3 -m venv env
+source ./env/bin/activate
+python3 -m pip install nodeenv
+nodeenv --python-virtualenv --node=lts
+```
+
+Now, the application can be run as follows:
+```
+npm run dev
+```
+
+
 ## React + Vite + Tailwind CSS
 
 This application was started with Vite, following the Tailwind CSS [instructions](https://tailwindcss.com/docs/guides/vite), and selecting the React framework with Javascript + SWC (Speedy Web Compiler) variant.
